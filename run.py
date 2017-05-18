@@ -1,13 +1,13 @@
-import re
+# -*- coding: utf-8 -*-
 
+import re
 import requests
 from bs4 import BeautifulSoup
-
 from captcha.Captcha_Login import login
 
 base_url = 'http://172.18.254.101/'
-username = input("请输入学号: ").strip()
-password = input("请输入密码: ").strip()
+username = raw_input("请输入学号: ").strip()
+password = raw_input("请输入密码: ").strip()
 user_type = '学生'
 
 session = requests.session()
@@ -39,10 +39,10 @@ for tag in bsobj.find_all("a", href=re.compile(pattern)):
     post_data = {
         '__EVENTARGUMENT': '',
         '__EVENTTARGET': '',
-        '__VIEWSTATE': __VIEWSTATE.encode('cp936'),
-        'Button1': "保 存".encode('cp936'),
+        '__VIEWSTATE': __VIEWSTATE.decode('utf-8').encode('utf-8'),
+        'Button1': "保 存".decode('utf-8').encode('utf-8'),
         # 评教号码
-        'pjkc': xkkh.encode('cp936'),
+        'pjkc': xkkh.decode('utf-8').encode('utf-8'),
         'pjxx': '',
         'TextBox1': '0',
         'txt1': '',
@@ -67,5 +67,5 @@ for tag in bsobj.find_all("a", href=re.compile(pattern)):
     }
 
     session.post(review_url, data=post_data, headers=headers)
-    print('课程号为' + xkkh + '的课程已经评教完成')
+    print('课程号为' + xkkh.decode('utf-8').encode('utf-8')+ '的课程已经评教完成')
 print('所有课程已经评教,请登陆确认')
