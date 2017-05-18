@@ -1,10 +1,12 @@
+# -*- coding: utf-8-*-
 from bs4 import BeautifulSoup
 
 
 def get_Captcha(data):
     with open('captcha.png', "wb") as fb:
-        fb.write(data)
-    return input("请输入验证码: ")
+    	fb.write(data)
+    captcha = raw_input("请输入验证码: ").strip()
+    return captcha
 
 
 def login(session, base_url, username, password, user_type):
@@ -12,6 +14,7 @@ def login(session, base_url, username, password, user_type):
         'name': '__VIEWSTATE'})['value']
     data = session.get(base_url + '/CheckCode.aspx').content
     secretCode = get_Captcha(data)
+    print secretCode
     postData = {
         '__VIEWSTATE': __VIEWSTATE,
         'txtUserName': username,
